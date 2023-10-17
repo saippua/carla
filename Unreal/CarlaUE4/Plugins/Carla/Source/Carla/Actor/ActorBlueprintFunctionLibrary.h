@@ -10,6 +10,7 @@
 #include "Carla/Actor/ActorDescription.h"
 #include "Carla/Actor/PedestrianParameters.h"
 #include "Carla/Actor/PropParameters.h"
+#include "Carla/Actor/StaticActorParameters.h"
 #include "Carla/Actor/VehicleParameters.h"
 #include "Carla/Sensor/GnssSensor.h"
 #include "Carla/Sensor/Radar.h"
@@ -140,6 +141,18 @@ public:
       const FString &Id,
       bool &Success,
       FActorDefinition &Definition);
+
+  UFUNCTION(Category = "Carla Actor", BlueprintCallable)
+    static void MakeStaticActorDefinition(
+      const FStaticActorParameters& Parameters,
+      bool& Success,
+      FActorDefinition& Definition);
+
+  UFUNCTION(Category = "Carla Actor", BlueprintCallable)
+    static void MakeStaticActorDefinitions(
+      const TArray<FStaticActorParameters>& ParameterArray,
+      TArray<FActorDefinition>& Definitions);
+
 
   UFUNCTION(Category = "Carla Actor", BlueprintCallable)
   static void MakePropDefinition(

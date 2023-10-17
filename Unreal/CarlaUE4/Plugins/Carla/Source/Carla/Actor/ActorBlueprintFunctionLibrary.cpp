@@ -1286,6 +1286,41 @@ void UActorBlueprintFunctionLibrary::MakeTriggerDefinition(
   check(Success);
 }
 
+void UActorBlueprintFunctionLibrary::MakeStaticActorDefinition(
+    const FStaticActorParameters& Parameters,
+    bool& Success,
+    FActorDefinition& Definition)
+{
+  FillIdAndTags(Definition, TEXT("static"), TEXT("actor"), Parameters.Name);
+  AddRecommendedValuesForActorRoleName(Definition, { TEXT("prop") });
+
+  auto GetSize = [](EPropSize Value) {
+    switch (Value)
+    {
+      case EPropSize::Tiny:    return TEXT("tiny");
+      case EPropSize::Small:   return TEXT("small");
+      case EPropSize::Medium:  return TEXT("medium");
+      case EPropSize::Big:     return TEXT("big");
+      case EPropSize::Huge:    return TEXT("huge");
+      default:                 return TEXT("unknown");
+    }
+  };
+
+  Definition.Attributes.Emplace(FActorAttribute{
+  TEXT("size"),
+  EActorAttributeType::String,
+  GetSize(Parameters.Size) });
+
+  Success = CheckActorDefinition(Definition);
+}
+
+void UActorBlueprintFunctionLibrary::MakeStaticActorDefinitions(
+  const TArray<FStaticActorParameters>& ParameterArray,
+  TArray<FActorDefinition>& Definitions)
+{
+  FillActorDefinitionArray(ParameterArray, Definitions, &MakeStaticActorDefinition);
+}
+
 void UActorBlueprintFunctionLibrary::MakePropDefinition(
     const FPropParameters &Parameters,
     bool &Success,
