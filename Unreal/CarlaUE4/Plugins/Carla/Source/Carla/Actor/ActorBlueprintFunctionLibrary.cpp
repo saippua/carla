@@ -1306,6 +1306,8 @@ void UActorBlueprintFunctionLibrary::MakeStaticActorDefinition(
     }
   };
 
+  Definition.Class = Parameters.Class;
+
   Definition.Attributes.Emplace(FActorAttribute{
   TEXT("size"),
   EActorAttributeType::String,
